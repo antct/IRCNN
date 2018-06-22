@@ -2,9 +2,17 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import argparse
 
-img_noise = cv2.imread('./image/B.png')
-img_origin = cv2.imread('./image/B_ori.png')
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--iter', dest='iter', type=int, default=3, help='# of epoch')
+parser.add_argument('--input', dest='input', type=str)
+
+args = parser.parse_args()
+
+
+img_noise = cv2.imread('./image/%s.png' % args.input)
 b, g, r = cv2.split(img_noise)
 img_noise = cv2.merge([r, g, b])
 
@@ -43,21 +51,11 @@ def IHMeanFilter(image, q):
     image_filter = (image_filter-np.min(image))*(255/np.max(image))
     return image_filter.astype(np.uint8)
 
-def MSE(aisle, channel):
-    s, n = 0.0, 0
-    for row in range(img_origin.shape[0]):
-        for col in range(img_origin.shape[1]):
-            s += (img_origin[row][col][channel] - aisle[row][col]) ** 2
-            n += 1
-    return s/n
-
-
 def IHMean(image, q):
     r, g, b = cv2.split(image)
     r = IHMeanFilter(r, q)
     g = IHMeanFilter(g, q)
     b = IHMeanFilter(b, q)
-    print(MSE(r, 0), MSE(g, 1), MSE(b, 2))
     return cv2.merge([r, g, b])
 
 
@@ -66,15 +64,13 @@ def IHMeanEpoch(image):
     img_IHMean = IHMean(img_IHMean, 0.1)
     return img_IHMean
 
-plt.subplot(221), plt.imshow(img_noise)
+print('[*] Start!')
+print('[*] Iter 0')
 img_IHMean = IHMean(img_noise, 0.1)
-plt.subplot(222), plt.imshow(img_IHMean)
-img_IHMean = IHMeanEpoch(img_IHMean)
-plt.subplot(223), plt.imshow(img_IHMean)
-for i in range(3):
+for i in range(args.iter):
+    print('[*] Iter %d' % (i+1))
     img_IHMean = IHMeanEpoch(img_IHMean)
-plt.subplot(224), plt.imshow(img_IHMean)
-plt.show()
 r, g, b = cv2.split(img_IHMean)
 img_IHMean = cv2.merge([b, g, r])
-cv2.imwrite("1.png", img_IHMean)
+cv2.imwrite("result.png", img_IHMean)
+print('[*] Finish!')
