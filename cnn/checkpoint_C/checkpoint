@@ -1,0 +1,2 @@
+model_checkpoint_path: "DNCNN-3100"
+all_model_checkpoint_paths: "DNCNN-3100"
