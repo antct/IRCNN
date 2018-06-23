@@ -49,6 +49,10 @@
 
 [IHMeans代码](./filter/IHMeans.py)
 
+```bash
+$ python IHMeans.py --input A
+```
+
 #### 滤波结果
 
 ![](./filter/image/A.png) ![](./filter/resultA.png)
@@ -98,7 +102,7 @@
 
 #### 模型训练
 
-```python
+```bash
 $ python main.py --phase train --percent 0.4 --channel 3
 ```
 
@@ -108,7 +112,7 @@ GTX1080下训练大约在10min左右。训练结果保存在相应的checkpoint�
 
 #### 模型测试
 
-```python
+```bash
 $ python main.py --phase test --percent 0.4 --channel 3 --input B
 ```
 
