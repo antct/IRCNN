@@ -1,4 +1,5 @@
 # Image-Denoising
+
 ## 问题
 
 给定污染方式已知的图像，尝试恢复他们的原始图像。
@@ -20,11 +21,11 @@
 
 #### 中值滤波
 
-![1529726962088](C:\Users\c\Desktop\Image-Denoising\images\1.png)
+![1529726962088](./images/1.png)
 
 椒盐噪声实际上经常用中值滤波这种比较简单的方式去除，我们使用中值滤波去试图还原，发现有一定的去除效果，但是仍会残留许多的噪点。
 
-![1529727165120](C:\Users\c\Desktop\Image-Denoising\images\2.png)
+![1529727165120](./images/2.png)
 
 我们试图增加中值滤波的迭代次数，发现此时的噪声趋于颗粒化。因为噪点的半径越来越大， 如果我们想要试图去除，就需要更大的中值半径，但这样，牺牲图像的细节品质也会越大。所以，中值滤波是一次失败的尝试。
 
@@ -50,11 +51,11 @@
 
 #### 滤波结果
 
-![](C:/Users/c/Desktop/AI2/filter/image/A.png) ![](C:/Users/c/Desktop/AI2/filter/resultA.png)
+![](./filter/image/A.png) ![](./filter/resultA.png)
 
-![](C:/Users/c/Desktop/AI2/filter/image/B.png) ![](C:/Users/c/Desktop/AI2/filter/resultB.png)
+![](./filter/image/B.png) ![](./filter/resultB.png)
 
-![](C:/Users/c/Desktop/AI2/filter/image/C.png) ![](C:/Users/c/Desktop/AI2/filter/resultC.png)
+![](./filter/image/C.png) ![](./filter/resultC.png)
 
 #### 总结分析
 
@@ -89,7 +90,7 @@
 
 #### 模型结构
 
-![](C:/Users/c/Desktop/AI2/images/4.png)  
+![](./images/4.png)  
 
 [模型代码](./cnn/model.py)
 
@@ -113,19 +114,19 @@ $ python main.py --phase test --percent 0.4 --channel 3 --input B
 
 #### 测试结果
 
-![](C:/Users/c/Desktop/AI2/cnn/data/test/A.png) ![](C:/Users/c/Desktop/AI2/cnn/resultA.png)
+![](./cnn/data/test/A.png) ![](./cnn/resultA.png)
 
-![](C:/Users/c/Desktop/AI2/cnn/data/test/B.png) ![](C:/Users/c/Desktop/AI2/cnn/resultB.png)
+![](./cnn/data/test/B.png) ![](./cnn/resultB.png)
 
-![](C:/Users/c/Desktop/AI2/cnn/data/test/C.png) ![](C:/Users/c/Desktop/AI2/cnn/resultC.png)
+![](./cnn/data/test/C.png) ![](./cnn/resultC.png)
 
 ### 滤波和CNN对比
 
-![](C:/Users/c/Desktop/AI2/filter/resultA.png) ![](C:/Users/c/Desktop/AI2/cnn/resultA.png)
+![](./filter/resultA.png) ![](./cnn/resultA.png)
 
-![](C:/Users/c/Desktop/AI2/filter/resultB.png) ![](C:/Users/c/Desktop/AI2/cnn/resultB.png)
+![](./filter/resultB.png) ![](./cnn/resultB.png)
 
-![](C:/Users/c/Desktop/AI2/filter/resultC.png) ![](C:/Users/c/Desktop/AI2/cnn/resultC.png)
+![](./filter/resultC.png) ![](./cnn/resultC.png)
 
 比较的结果不言而喻，CNN的恢复结果比传统滤波好太多，CNN有更好的细节还原度。
 
