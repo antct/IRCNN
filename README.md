@@ -20,11 +20,11 @@
 
 ##### 中值滤波
 
-![1529726962088](C:\Users\c\Desktop\Image-Denoising\images\1.png)
+![1529726962088](./images/1.png)
 
 椒盐噪声实际上经常用中值滤波这种比较简单的方式去除，我们使用中值滤波去试图还原，发现有一定的去除效果，但是仍会残留许多的噪点。
 
-![1529727165120](C:\Users\c\Desktop\Image-Denoising\images\2.png)
+![1529726962088](./images/2.png)
 
 我们试图增加中值滤波的迭代次数，发现此时的噪声趋于颗粒化，因为噪点的半径越来越大， 如果我们想要试图去除，就需要更大的中值半径，但这样，牺牲图像的细节品质也会越大。所以，中值滤波是一次失败的尝试。
 
@@ -46,11 +46,11 @@
 
 ##### 滤波结果
 
-![](C:/Users/c/Desktop/AI2/filter/image/A.png) ![](C:/Users/c/Desktop/AI2/filter/resultA.png)
+![](./filter/image/A.png) ![](./filter/resultA.png)
 
-![](C:/Users/c/Desktop/AI2/filter/image/B.png) ![](C:/Users/c/Desktop/AI2/filter/resultB.png)
+![](./filter/image/B.png) ![](./filter/resultB.png)
 
-![](C:/Users/c/Desktop/AI2/filter/image/C.png) ![](C:/Users/c/Desktop/AI2/filter/resultC.png)
+![](./filter/image/C.png) ![](./filter/resultC.png)
 
 三幅图都实现了基本的去噪，但是很明显的，由于使用了滤波的方法，就难以克服滤波的天生缺陷，对于细节的损失比较明显，图片整体平滑化了。并且，没有应用到80%/40%/60%这几个敏感的mask参数。
 
@@ -77,11 +77,11 @@
 
 [模型代码](./cnn/model.py)
 
-![](C:/Users/c/Desktop/AI2/images/4.png)  
+![](./images/4.png)  
 
 ##### 模型训练
 
-```python
+```bash
 $ python main.py --phase train --percent 0.4 --channel 3
 ```
 
@@ -89,23 +89,23 @@ GTX1080下训练大约在10min左右。训练结果保存在相应的checkpoint�
 
 ##### 模型测试
 
-```python
+```bash
 $ python main.py --phase test --percent 0.4 --channel 3 --input B
 ```
 
 ##### 测试结果
 
-![](C:/Users/c/Desktop/AI2/cnn/data/test/A.png) ![](C:/Users/c/Desktop/AI2/cnn/resultA.png)
+![](./cnn/data/test/A.png) ![](./cnn/resultA.png)
 
-![](C:/Users/c/Desktop/AI2/cnn/data/test/B.png) ![](C:/Users/c/Desktop/AI2/cnn/resultB.png)
+![](./cnn/data/test/B.png) ![](./cnn/resultB.png)
 
-![](C:/Users/c/Desktop/AI2/cnn/data/test/C.png) ![](C:/Users/c/Desktop/AI2/cnn/resultC.png)
+![](./cnn/data/test/C.png) ![](./cnn/resultC.png)
 
 #### 两种方法结果的对比
 
-![](C:/Users/c/Desktop/AI2/filter/resultA.png) ![](C:/Users/c/Desktop/AI2/cnn/resultA.png)
+![](./filter/resultA.png) ![](./cnn/resultA.png)
 
-![](C:/Users/c/Desktop/AI2/filter/resultB.png) ![](C:/Users/c/Desktop/AI2/cnn/resultB.png)
+![](./filter/resultB.png) ![](./cnn/resultB.png)
 
-![](C:/Users/c/Desktop/AI2/filter/resultC.png) ![](C:/Users/c/Desktop/AI2/cnn/resultC.png)
+![](./filter/resultC.png) ![](./cnn/resultC.png)
 
