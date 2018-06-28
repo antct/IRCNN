@@ -124,17 +124,5 @@ $ python main.py --phase test --percent 0.4 --channel 3 --input B
 
 ![](./cnn/data/test/C.png) ![](./cnn/resultC.png)
 
-### 滤波和CNN对比
 
-![](./filter/resultA.png) ![](./cnn/resultA.png)
-
-![](./filter/resultB.png) ![](./cnn/resultB.png)
-
-![](./filter/resultC.png) ![](./cnn/resultC.png)
-
-比较的结果不言而喻，CNN的恢复结果比传统滤波好太多，CNN有更好的细节还原度。
-
-但是，CNN的恢复结果也有不足之处，和原先的图片相比，可能色彩亮度上略有差别。
-
-这是我们进一步改进的方向~
 
