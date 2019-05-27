@@ -1,4 +1,4 @@
-# Image Restore
+# Image Restoration
 
 > 受损图像 X 由原始图像 Y 添加不同的噪声遮罩 M 得到。
 >
