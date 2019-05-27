@@ -1,13 +1,10 @@
-# Image-Denoising
+# Image Restore
 
-## 污染方式
+> 受损图像 X 由原始图像 Y 添加不同的噪声遮罩 M 得到。
+>
+> 噪声遮罩仅包含{0, 1}值，分别对应原图的每行用0.8/0.4/0.6的噪声比率产生，即噪声遮罩的每个通道每行80%/40%/60%的像素值为0，其他为1。
 
-1. 受损图像![](./images/E1.png)由原始图像![](./images/E2.png)添加不同的噪声遮罩![](./images/E3.png)得到的，![](./images/E4.png)，![](./images/E5.png)为逐元素相乘。
-2. 噪声遮罩仅包含{0, 1}值，分别对应原图的每行用0.8/0.4/0.6的噪声比率产生，即噪声遮罩的每个通道每行80%/40%/60%的像素值为0，其他为1。
-
-## 恢复
-
-### 传统滤波
+## 滤波
 
 [滤波处理代码](./filter/filter.ipynb)
 
@@ -15,7 +12,7 @@
 
 当然我们也发现了一个比较好的滤波方法，逆谐波均值滤波，即IHMeans。
 
-实际上这个方法的核心是在于对于每一个局部空间应用一下IHMeans算子: ![](./images/E6.png)。
+实际上这个方法的核心是在于对于每一个局部空间应用一下IHMeans算子。
 
 我们对于基本的IHMeans给出来了实现，基本的IHMeans已经完成了对于噪点的去除，我们在这个基础上做了一些改进。
 
@@ -31,9 +28,13 @@ $ python IHMeans.py --input A
 
 ### CNN
 
-参照于论文[Beyond a Gaussian Denoiser: Residual Learning of Deep CNN for Image Denoising](http://www4.comp.polyu.edu.hk/~cslzhang/paper/DnCNN.pdf)。
+[DnCNN](http://www4.comp.polyu.edu.hk/~cslzhang/paper/DnCNN.pdf) [IRCNN](http://openaccess.thecvf.com/content_cvpr_2017/papers/Zhang_Learning_Deep_CNN_CVPR_2017_paper.pdf)
 
-数据集来自[CIFAR-10数据集](http://www.cs.toronto.edu/~kriz/cifar.html )。
+
+#### 数据集
+
+[CIFAR-10数据集](http://www.cs.toronto.edu/~kriz/cifar.html )。
+
 
 #### 数据预处理
 
@@ -51,18 +52,24 @@ $ python IHMeans.py --input A
 #### 模型训练
 
 ```bash
-$ python main.py --phase train --percent 0.4 --channel 3
+$ python main.py --phase train --percent 0.4 --channel_num 3 --model_type=ircnn
 ```
-
-其他参数像learning rate, batch size等都给了默认值。
-
-GTX1080下训练大约在10min左右。训练结果保存在相应的checkpoint文件夹下。
 
 #### 模型测试
 
 ```bash
-$ python main.py --phase test --percent 0.4 --channel 3 --input B
+$ python main.py --phase test --channel_num 3 --input B --model_type=ircnn
 ```
 
+#### 训练过程
 
+![](./images/5.png) ![](./images/6.png) 
+
+#### 还原效果
+
+![](./cnn/data/test/A.png) ![](./cnn/resultA.png)
+
+![](./cnn/data/test/B.png) ![](./cnn/resultB.png)
+
+![](./cnn/data/test/C.png) ![](./cnn/resultC.png)
 

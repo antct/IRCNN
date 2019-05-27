@@ -3,22 +3,24 @@ import numpy as np
 import tensorflow as tf
 import argparse
 import matplotlib.pyplot as plt
-from scipy.misc import imread, imsave
+from imageio import imread, imsave
 import os
-os.environ['CUDA_VISIBLE_DEVICES']='2'  
+os.environ['CUDA_VISIBLE_DEVICES']='0'  
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--channel', dest='channel', type=int, required=True)
+parser.add_argument('--channel_num', dest='channel_num', type=int)
 parser.add_argument('--lr', dest='lr', type=float, default=0.001, help='initial learning rate for adam')
-parser.add_argument('--epoch', dest='epoch', type=int, default=50, help='# of epoch')
+parser.add_argument('--epoch_num', dest='epoch_num', type=int, default=100, help='# of epoch')
 parser.add_argument('--use_gpu', dest='use_gpu', type=int, default=1, help='gpu flag, 1 for GPU and 0 for CPU')
 parser.add_argument('--phase', dest='phase', default='train', help='train or test')
-parser.add_argument('--percent', dest='percent', type=float, required=True)
+parser.add_argument('--percent', dest='percent', type=float)
 parser.add_argument('--checkpoint_dir', dest='ckpt_dir', default='./checkpoint', help='models are saved here')
+parser.add_argument('--summary_dir', dest='summary_dir', default='./summary', help='summary are saved here')
 parser.add_argument('--input', dest='input', type=str)
-parser.add_argument('--layer', dest='layer', type=int, default=10)
-parser.add_argument('--batch', dest='batch', type=int, default=32)
+parser.add_argument('--layer_num', dest='layer_num', type=int, default=10)
+parser.add_argument('--batch_size', dest='batch_size', type=int, default=32)
+parser.add_argument('--model_type', dest='model_type', default='ircnn', help='model type')
 
 args = parser.parse_args()
 
@@ -52,33 +54,19 @@ def load_data(channel):
         X = np.array(X)
     return X
 
-load_data(1)
-
-
-def denoiser_train(denoiser, data, lr):
-    denoiser.train(data, ckpt_dir=args.ckpt_dir, epoch=args.epoch, lr=lr)
-
-
-def denoiser_test(denoiser):
-    image = np.array(imread("./data/test/" + args.input + ".png"))
-    image = image.reshape([1, image.shape[0], image.shape[1], args.channel])
-    denoiser.test(image, ckpt_dir=args.ckpt_dir)
-
 
 def main(_):
-    lr = args.lr * np.ones([args.epoch])
-    lr[30:] = lr[0] / 10.0
     if args.use_gpu:
-        print("GPU\n")
-        tf.device('/gpu:2')
+        tf.device('/gpu:0')
     with tf.Session() as sess:
-        model = denoiser(sess, percent=args.percent, channel_dim=args.channel, layer=args.layer, batch_size=args.batch)
+        model = denoiser(sess, args)
         if args.phase == 'train':
-            denoiser_train(model, lr=lr, data=load_data(args.channel))
+            model.train(load_data(args.channel_num))
         elif args.phase == 'test':
-            denoiser_test(model)
+            image = np.array(imread("./data/test/" + args.input + ".png"))
+            image = image.reshape([1, image.shape[0], image.shape[1], args.channel_num])
+            model.test(image)
         else:
-            print('[!]Unknown phase')
             exit(0)
 
 
